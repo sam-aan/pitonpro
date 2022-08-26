@@ -1,0 +1,10 @@
+{% extends 'reg/base.html' %}
+
+{% block tittle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Страница про нас</h1>
+    <p>Добро пожаловать {{ request.user.username }}</p>
+{% endblock %}
