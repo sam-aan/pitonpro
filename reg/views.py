@@ -10,7 +10,7 @@ def regis(request):
     dateReg = reg.objects.all()
     return render(request, 'reg/reg.html', {'title': 'Зарегистрированные проекты', 'dateReg': dateReg})
 
-def inreg(request):
+def inreg(request, data=None):
     error = ''
 
     if request.method == 'POST':
@@ -19,7 +19,8 @@ def inreg(request):
         if form.is_valid():
             form = form.save(commit=False)
             form.Responsible = request.user.first_name + ' ' + request.user.last_name
-            print(form)
+            form.save()
+            form.nombers = form.id
             form.save()
             return redirect('regis')
         else:
