@@ -1,5 +1,5 @@
 from django.urls import path, include
-from app_users.views import login_view, AnotherLoginView, logout_view, AnotherLogoutView
+from solaris_vedomost.views import
 
 urlpatterns = [
     #path('', login_view, name='login'),

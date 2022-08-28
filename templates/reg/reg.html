@@ -9,8 +9,9 @@
     {% for el in dateReg %}
         <div class="alter alter-warning mt-2">
             <h3>Проект №{{ el.nombers }} {{ el.NameProg }}</h3>
-            <p>Дата регистрации: {{ el.Date }}</p>
-            <p>Статус:   {{ el.Status }}</p><br>
+            <p>Дата регистрации: {{ el.Date_born }}</p>
+            <p>Статус:   {{ el.Status }}</p>
+            <p>Отвественный: {{ el.Responsible }}</p><br>
         </div>
     {% endfor %}
 {% endblock %}

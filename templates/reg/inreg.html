@@ -8,9 +8,9 @@
     <h1>{{ title }}</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.nombers }}<br>
         {{ form.NameProg }}<br>
-        {{ form.Status }}<br>
+        {{ form.Customer_company }}<br>
+        {{ form.Adres_obj }}<br>
         <button type="submit" class="btn-success">Зарегистрировать</button>
         <span>{{ error }}</span>
     </form>

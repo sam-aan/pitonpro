@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import reg
 from .forms import regForm
+import datetime
 
 def glavn(request):
     return render(request, 'reg/glavn.html', {'title': 'Главная страница'})
@@ -16,9 +17,11 @@ def inreg(request):
         form = regForm(request.POST)
 
         if form.is_valid():
+            form = form.save(commit=False)
+            form.Responsible = request.user.first_name + ' ' + request.user.last_name
+            print(form)
             form.save()
-            print('Нажали конпкуууууууу!!!')
-            return redirect('home')
+            return redirect('regis')
         else:
             error = 'Чет ты натыкал???'
 

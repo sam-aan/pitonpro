@@ -4,18 +4,20 @@ from django.forms import ModelForm, TextInput
 class regForm(ModelForm):
     class Meta:
         model = reg
-        fields = ['nombers', 'NameProg']
+        fields = ['NameProg', 'Customer_company', 'Adres_obj']
+        #exclude = ['Responsible']
         widgets = {
-            'nombers': TextInput(attrs={
+            'NameProg': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Введите наименование проекта'
                 }),
-            'NameProg': TextInput(attrs={
+            'Customer_company': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите номер проекта'
+                'placeholder': 'Введите ИНН контрагента',
+                'maxlength': '10'   # Ограничим ввод на странице 10 символами
                 }),
-            'Status': TextInput(attrs={
+            'Adres_obj': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите статус'
+                'placeholder': 'Введите адрес объекта (Страна, Город, Улица, №Дома)'
                 })
                 }

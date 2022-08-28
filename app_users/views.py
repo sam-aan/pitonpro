@@ -5,6 +5,17 @@ from app_users.forms import AuthForm
 from django.contrib.auth.views import LoginView, LogoutView
 
 
+class AnotherLoginView(LoginView):
+    template_name = 'users/login.html'
+
+class AnotherLogoutView(LogoutView):
+    next_page = '/'
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponse('Пока!')
+
 def login_view(request):
     if request.method == 'POST':    # для POST пытаемся аутентифицировать пользователя
         auth_form = AuthForm(request.POST)
@@ -27,15 +38,4 @@ def login_view(request):
         'title': 'Регистрация Пользователя',
     }
     return render(request, 'users/login.html', context=content)
-
-class AnotherLoginView(LoginView):
-    template_name = 'users/login.html'
-
-class AnotherLogoutView(LogoutView):
-    next_page = '/login'
-
-
-def logout_view(request):
-    logout(request)
-    return HttpResponse('Пока!')
 
