@@ -1,10 +1,9 @@
 from django.urls import path, include
-from solaris_vedomost.views import
+from . import views
+from app_users.views import AnotherLogoutView
 
-urlpatterns = [
-    #path('', login_view, name='login'),
-    path('', AnotherLoginView.as_view(), name='another_login'),
-    #path('logout', logout_view, name='another_logout'),
+urlpatterns = {
     path('logout', AnotherLogoutView.as_view(), name='another_logout'),
-    path('home/', include('reg.urls'), name='home'),
-]
+    path('home', include('reg.urls'), name='home'),
+    path('sol', views.sol_ved, name='solved'),
+}

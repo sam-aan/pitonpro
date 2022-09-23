@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_users',
     'app_employment',
-    'reg'
+    'reg',
+    'solaris_vedomost'
 ]
 
 MIDDLEWARE = [
@@ -80,9 +81,20 @@ WSGI_APPLICATION = 'pitonpro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'solaris',
+        'USER': 'postgres',
+        'PASSWORD': 'sam-aan2020',
+        'HOST': '95.80.93.177',
+        'PORT': '5432',
+    }
+}'''
 
 
 # Password validation

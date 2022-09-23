@@ -14,12 +14,14 @@
         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
         <span class="fs-4">PitON</span>
       </a>
-
       <ul class="nav nav-pills">
+
         <li class="nav-item"><a href="{% url 'home' %}" class="nav-link active" aria-current="page">Главная</a></li>
         <li class="nav-item"><a href="{% url 'regis' %}" class="nav-link">Список регистрации</a></li>
         <li class="nav-item"><a href="{% url 'inreg' %}" class="nav-link">Регистрация</a></li>
+        <li class="nav-item"><a href="{% url 'solved' %}" class="nav-link">Солярис ведомость</a></li>
         <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Выход</a></li>
+
       </ul>
     </header>
   </div>
@@ -27,6 +29,7 @@
         {% block content %}{% endblock %}
     </div>
 </body>
+
 {% else %}
 </body>
     <div class="container">
