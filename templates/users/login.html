@@ -6,9 +6,11 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}<br>
-        <button type="submit" class="btn-success">Вход</button>
-    </form>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_table }}<br>
+            <button type="button" class="btn btn-success">Вход</button>
+        </form>
+    </div>
 {% endblock %}

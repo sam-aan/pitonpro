@@ -27,8 +27,48 @@ class SolVed(models.Model):
 
     # название строчки в таблице
     def __str__(self):
-        return 'Номер заказа: ' + self.NomZak + ' Статус: ' + self.Status
+        return 'Номер заказа: ' + self.NomZak
 
     # название таблицы
     class Meta:
         verbose_name = 'Таблица Заказов'
+
+class IP(models.Model):
+
+    Ip = models.CharField('Степень защиты оболочки', max_length=2)
+
+    # название строчки в таблице
+    def __str__(self):
+        return 'IP ' + self.Ip
+    # название таблицы
+    class Meta:
+        verbose_name = 'IP'
+
+class Seria(models.Model):
+
+    Ser = models.CharField('Наименование серии', max_length=15)
+    Ip = models.ForeignKey(IP, db_index=True, max_length=2, on_delete=models.PROTECT)
+    Matprov = models.CharField('Материал проводника', max_length=15)
+    Kolprov = models.CharField('Количество проводников', max_length=15)
+    Nomprov = models.CharField('Номинальный ток проводника', max_length=15)
+
+    # название строчки в таблице
+    def __str__(self):
+        return 'Серия' + self.Ser + self.Matprov + ' Кол.пров ' + self.Kolprov
+    # название таблицы
+    class Meta:
+        verbose_name = 'Серия'
+
+class detal(models.Model):
+
+    Name = models.CharField('Наименование', max_length=30)
+    Nomer = models.CharField('Обозначение', max_length=15)
+    Weight = models.DecimalField('Масса', max_digits=5, decimal_places=3)
+
+    # название строчки в таблице
+    def __str__(self):
+        return self.Nomer + self.Name
+
+    # название таблицы
+    class Meta:
+        verbose_name = 'Деталь'

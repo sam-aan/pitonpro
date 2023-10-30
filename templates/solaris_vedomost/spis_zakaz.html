@@ -1,0 +1,27 @@
+{% extends 'reg/base.html' %}
+
+{% block tittle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1 align="center">Список заказов</h1>
+    {% for el in date_spis_zakaz %}
+        <div {% if el.Status == 'создан' %}
+                class="alert alert-warning" role="alert"
+                {% elif el.Status == 'в работе' %}
+                class="alert alert-danger" role="alert"
+                {% elif el.Status == 'на упаковке' %}
+                class="alert alert-success" role="alert"
+                {% elif el.Status == 'отгружен' %}
+                class="alert alert-secondary" role="alert"
+                {% else %}
+                class="alert alert-light" role="alert"
+                {% endif %}>>
+            <h3>Заказ №{{ el.NomZak }} {{ el.NomProj }}</h3>
+            <p>Дата регистрации: {{ el.Date_creation }}</p>
+            <p>Статус:   {{ el.Status }}</p>
+            <p>Ответственный: {{ el.Responsible }}</p><br>
+        </div>
+    {% endfor %}
+{% endblock %}

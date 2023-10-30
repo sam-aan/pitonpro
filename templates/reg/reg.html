@@ -1,17 +1,83 @@
 {% extends 'reg/base.html' %}
 
-{% block tittle %}
+{% block content %}
+    <h1 align="center">{% block tittle %}
 {{ title }}
+{% endblock %}</h1>
+
+    <!-- Кнопка-триггер модального окна -->
+    <div class="container">
+        <div class="row gy-2">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Создать новый проект
+                    </button>
+                </div>
+            </div>
+
+            <!-- Фильтр для списка проектов-->
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    Фильтр по статусу
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <form method="post">
+                       {% for status in statuses.Status %}
+                        <li><button class="dropdown-item" type="button">
+                            {{ status }}
+                        </button></li>
+                    {% endfor %}
+                    </form>
+                </ul>
+            </div>
+
+
+
+            <!-- Список всех проектов -->
+            {% for el in dateReg %}
+            <div
+                {% if el.Status == 'создан' %}
+                class="alert alert-warning" role="alert"
+                {% elif el.Status == 'в работе' %}
+                class="alert alert-danger" role="alert"
+                {% elif el.Status == 'согласован' %}
+                class="alert alert-success" role="alert"
+                {% else %}
+                class="alert alert-light" role="alert"
+                {% endif %}>
+                <h3>Проект №{{ el.numbers }} {{ el.NameProg }}</h3>
+                <p>Дата регистрации: {{ el.Date_born }}</p>
+                <p>Статус:   {{ el.Status }}</p>
+                <p>Отвественный: {{ el.Responsible }}</p><br>
+            </div>
+            {% endfor %}
+        <div>
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ title2 }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- Наш модуль из inger-->
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.NameProg }}<br>
+                    {{ form.Adres_obj }}<br>
+                    <span>{{ error }}</span>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Зарегистрировать</button>
+                    </div>
+                </form>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}
 
-{% block content %}
-    <h1>Зарегистрированные проекты</h1>
-    {% for el in dateReg %}
-        <div class="alter alter-warning mt-2">
-            <h3>Проект №{{ el.numbers }} {{ el.NameProg }}</h3>
-            <p>Дата регистрации: {{ el.Date_born }}</p>
-            <p>Статус:   {{ el.Status }}</p>
-            <p>Отвественный: {{ el.Responsible }}</p><br>
-        </div>
-    {% endfor %}
-{% endblock %}

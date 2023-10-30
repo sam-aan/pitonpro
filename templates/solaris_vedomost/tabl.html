@@ -1,0 +1,18 @@
+{% extends 'reg/base.html' %}
+
+{% block tittle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>{{ form.NomProj }}</p>
+        <p>{{ form.NomZak }}</p>
+        <p>{{ form.PromPlosh }}</p><br>
+        <p>{{ form.uploadedFile }}</p>
+        <p><button type="submit" class="btn-success">Расчет</button></p><br>
+        <span>{{ error }}</span>
+    </form>
+{% endblock %}

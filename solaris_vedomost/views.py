@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import solvedom
+from .models import SolVed
+from materials.rashet_sekcii import rashet
 import datetime
+
+#def zapusk()
 
 def sol_ved(request, data=None):
     error = ''
@@ -11,10 +15,12 @@ def sol_ved(request, data=None):
         if form.is_valid():
             form = form.save(commit=False)
             uploadedFile = request.FILES["uploadedFile"]
-            print(uploadedFile)
+            print(uploadedFile, form.NomProj_id)
             form.Responsible = request.user.first_name + ' ' + request.user.last_name
             form.save()
-            return redirect('home')
+            print(form.NomZak, form.NomProj_id, uploadedFile, form.PromPlosh)
+            rashet([form.NomZak, form.NomProj_id], uploadedFile, form.PromPlosh).zapusk()
+            return redirect('zakazi')
         else:
             error = 'какая то ху...я'
 
@@ -25,3 +31,8 @@ def sol_ved(request, data=None):
         'title': 'Солярис Ведомость'
     }
     return render(request, 'solaris_vedomost/solaris_vedomost.html', content)
+
+def spis_zakaz(request):
+    date_spis_zakaz = SolVed.objects.all()
+    return render(request, 'solaris_vedomost/spis_zakaz.html',
+                  {'title': 'Зарегистрированные Заказы', 'date_spis_zakaz': date_spis_zakaz})

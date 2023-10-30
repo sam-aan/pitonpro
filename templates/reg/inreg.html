@@ -9,7 +9,6 @@
     <form method="post">
         {% csrf_token %}
         {{ form.NameProg }}<br>
-        {{ form.Customer_company }}<br>
         {{ form.Adres_obj }}<br>
         <button type="submit" class="btn-success">Зарегистрировать</button>
         <span>{{ error }}</span>

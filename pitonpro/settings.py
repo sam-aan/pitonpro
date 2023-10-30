@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'app_users',
     'app_employment',
     'reg',
-    'solaris_vedomost'
+    'solaris_vedomost',
+    #'solsklad'
 ]
 
 MIDDLEWARE = [
