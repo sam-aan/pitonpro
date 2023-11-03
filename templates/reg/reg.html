@@ -1,18 +1,19 @@
 {% extends 'reg/base.html' %}
 
 {% block content %}
-    <h1 align="center">{% block tittle %}
-{{ title }}
-{% endblock %}</h1>
-
-    <!-- Кнопка-триггер модального окна -->
     <div class="container">
+        <div class="d-flex justify-content-center"><h1> {{ title }}</h1></div>
         <div class="row gy-2">
+
+            <!-- Кнопка-триггер модального окна -->
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
+                <!-- Проверяем есть ли пользователь в которую входит пользователь в списке разрешенных групп -->
+                {% if nameGroupe in allowedGroups %}
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Создать новый проект
                     </button>
+                {% endif %}
                 </div>
             </div>
 
@@ -23,16 +24,15 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                     <form method="post">
+                    {% csrf_token %}
                        {% for status in statuses.Status %}
-                        <li><button class="dropdown-item" type="button">
+                        <li><button class="dropdown-item" type="submit">
                             {{ status }}
                         </button></li>
                     {% endfor %}
                     </form>
                 </ul>
             </div>
-
-
 
             <!-- Список всех проектов -->
             {% for el in dateReg %}
@@ -46,38 +46,38 @@
                 {% else %}
                 class="alert alert-light" role="alert"
                 {% endif %}>
-                <h3>Проект №{{ el.numbers }} {{ el.NameProg }}</h3>
+                <a href="{% url 'sdelka' %}"class="link-success">
+                    <h3>Проект №{{ el.numbers }} {{ el.NameProg }}</h3>
+                </a>
                 <p>Дата регистрации: {{ el.Date_born }}</p>
                 <p>Статус:   {{ el.Status }}</p>
-                <p>Отвественный: {{ el.Responsible }}</p><br>
+                <p>Ответственный: {{ el.Responsible }}</p><br>
             </div>
             {% endfor %}
-        <div>
-    </div>
 
-    <!-- Модальное окно -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ title2 }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-          </div>
-          <div class="modal-body">
-
-            <!-- Наш модуль из inger-->
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.NameProg }}<br>
-                    {{ form.Adres_obj }}<br>
-                    <span>{{ error }}</span>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Зарегистрировать</button>
+            <!-- Модальное окно -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ title2 }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Наш модуль из "inger" -->
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form.NameProg }}<br>
+                                {{ form.Adres_obj }}<br>
+                                <span>{{ error }}</span>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Зарегистрировать</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </form>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 {% endblock %}
-

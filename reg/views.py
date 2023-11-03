@@ -11,7 +11,7 @@ def regis(request):
     # если был отправлен запрос на создание фильтров
     selected_status = request.POST.get('status')
     projects = reg.objects.all()
-    print(request.POST)
+    print(selected_status)
     if selected_status:
         dateReg = projects.filter(status=selected_status)
     else:
@@ -35,15 +35,19 @@ def regis(request):
 
     # Сортировка только тех проектов, которые созданы активным пользователем
     for i in request.user.groups.values_list():
-        if i[1] in ['Администраторы', 'Super_user']:
+        if i[1] not in ['Продавцы']:
             dateReg = reg.objects.all()
             title = 'Список всех проектов'
+            nameGroupe = i[1]
         else:
             dateReg = projects.filter(Responsible=request.user.get_full_name())
             title = 'Список Ваших проектов'
+            nameGroupe = i[1]
 
     form = regForm()
     content = {
+        'allowedGroups': ['Администраторы', 'Продавцы', 'Super_user'],
+        'nameGroupe': nameGroupe,
         'statuses': StatusForm,
         'title': title,
         'dateReg': dateReg,
@@ -77,3 +81,10 @@ def inreg(request, data=None):
         'title': 'Регистрация'
     }
     return render(request, 'reg/inreg.html', content)
+
+def sdelka(request):
+    info = 'Сообщение'
+    content = {
+        'info': info
+    }
+    return render(request, 'reg/sdelka.html', content)
