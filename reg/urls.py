@@ -12,5 +12,5 @@ urlpatterns = [
     path('logout', AnotherLogoutView.as_view(), name='logout'),
     path('sol/', sol_ved, name='solved'),
     path('zakaz/', spis_zakaz, name='zakazi'),
-    path('sdelka', views.sdelka, name='sdelka'),
+    path('sdelka/<int:sdelka_id>', views.sdelka, name='sdelka'),
 ]

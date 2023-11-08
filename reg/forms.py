@@ -1,5 +1,6 @@
+from app_users import forms
 from .models import reg
-from django.forms import ModelForm, TextInput, Select, Textarea
+from django.forms import ModelForm, TextInput, Select, Textarea, Form, ChoiceField, ValidationError
 
 class regForm(ModelForm):
     class Meta:
@@ -16,13 +17,3 @@ class regForm(ModelForm):
                 })
                 }
 
-class StatusForm(ModelForm):
-    class Meta:
-        model = reg
-        fields = ['Status']
-        widgets = {
-            'Status': Select(attrs={
-                'class': 'select',  # Можете задать класс по вашему усмотрению
-                'value': Select,
-            })
-        }

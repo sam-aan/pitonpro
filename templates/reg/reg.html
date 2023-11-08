@@ -1,7 +1,7 @@
 {% extends 'reg/base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
         <div class="d-flex justify-content-center"><h1> {{ title }}</h1></div>
         <div class="row gy-2">
 
@@ -9,7 +9,7 @@
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                 <!-- Проверяем есть ли пользователь в которую входит пользователь в списке разрешенных групп -->
-                {% if nameGroupe in allowedGroups %}
+                {% if nameGroup in allowedGroups %}
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Создать новый проект
                     </button>
@@ -19,17 +19,17 @@
 
             <!-- Фильтр для списка проектов-->
             <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     Фильтр по статусу
                 </a>
-                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <ul class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenu2">
                     <form method="post">
-                    {% csrf_token %}
-                       {% for status in statuses.Status %}
-                        <li><button class="dropdown-item" type="submit">
-                            {{ status }}
-                        </button></li>
-                    {% endfor %}
+                        {% csrf_token %}
+                            <li><button type="submit" class="dropdown-item" name="sortirovka" value="все">Все</button></li>
+                            <li><button type="submit" class="dropdown-item" name="sortirovka" value="создан">Создан</button></li>
+                            <li><button type="submit" class="dropdown-item" name="sortirovka" value="согласован">Согласован</button></li>
+                            <li><button type="submit" class="dropdown-item" name="sortirovka" value="в работе">В работе</button></li>
+                            <li><button type="submit" class="dropdown-item" name="sortirovka" value="завершен">Завершен</button></li>
                     </form>
                 </ul>
             </div>
@@ -46,9 +46,12 @@
                 {% else %}
                 class="alert alert-light" role="alert"
                 {% endif %}>
-                <a href="{% url 'sdelka' %}"class="link-success">
-                    <h3>Проект №{{ el.numbers }} {{ el.NameProg }}</h3>
-                </a>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link" name="sdelka" value="{{ el.id }}">
+                        Проект №{{ el.numbers }} {{ el.NameProg }}
+                    </button>
+                </form>
                 <p>Дата регистрации: {{ el.Date_born }}</p>
                 <p>Статус:   {{ el.Status }}</p>
                 <p>Ответственный: {{ el.Responsible }}</p><br>
@@ -69,10 +72,10 @@
                                 {% csrf_token %}
                                 {{ form.NameProg }}<br>
                                 {{ form.Adres_obj }}<br>
-                                <span>{{ error }}</span>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Зарегистрировать</button>
+                                    <button type="submit" class="btn btn-primary" name="new_sdelka">Зарегистрировать</button>
                                 </div>
+                                <span>{{ error }}</span>
                             </form>
                         </div>
                     </div>
