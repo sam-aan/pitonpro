@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from .models import reg
 from .forms import regForm
@@ -5,22 +6,29 @@ from .forms import regForm
 def glavn(request):
     return render(request, 'reg/glavn.html', {'title': 'Главная страница'})
 
+
 def regis(request):
     error = ''
-    dateReg = reg.objects.all()
-    title = 'Список всех проектов'
-    nameGroup = ''
-
     # Сортировка только тех проектов, которые созданы активным пользователем
-    for i in request.user.groups.values_list():
-        if i[1] not in ['Продавцы']:
-            nameGroup = i[1]
-        else:
-            dateReg = reg.objects.filter(Responsible=request.user.get_full_name())
-            title = 'Список Ваших проектов'
-            nameGroup = i[1]
+    # для Админа
+    if request.user.has_perm('reg.delete_reg'):
+        dateReg = reg.objects.all()
+        title = 'Список всех проектов'
+        nameGroup = True
+    # для продавцов
+    elif request.user.has_perm('reg.add_reg'):
+        dateReg = reg.objects.filter(Responsible=request.user.get_full_name())
+        title = 'Список Ваших проектов'
+        nameGroup = True
+    elif request.user.has_perm('reg.view_reg'):
+        dateReg = reg.objects.all()
+        title = 'Список всех проектов'
+        nameGroup = False
+    else:
+        raise PermissionDenied
 
-    # если был запрос на создание нового проекта мы заполняем его в БД
+
+    # если был запрос на создание нового проекта, мы заполняем его в базу данных
     if request.method == 'POST':
         print('POST', request.POST)
         form = regForm(request.POST)
@@ -43,10 +51,10 @@ def regis(request):
         elif 'sortirovka' in request.POST:
             selected_sorting = request.POST['sortirovka']
             if selected_sorting in ['все']:
-                if nameGroup not in ['Продавцы']:
-                    dateReg = reg.objects.all()
-                else:
+                if request.user.has_perm('reg.add_reg'):
                     dateReg = reg.objects.filter(Responsible=request.user.get_full_name())
+                else:
+                    dateReg = reg.objects.all()
             else:
                 dateReg = dateReg.filter(Status=selected_sorting)
         else:
@@ -54,7 +62,6 @@ def regis(request):
 
     form = regForm()
     content = {
-        'allowedGroups': ['Администраторы', 'Продавцы', 'Super_user'],
         'nameGroup': nameGroup,
         'title': title,
         'dateReg': dateReg,
@@ -65,7 +72,7 @@ def regis(request):
 
     return render(request, 'reg/reg.html', content)
 
-def inreg(request, data=None):
+def inreg(request):
     error = ''
 
     if request.method == 'POST':

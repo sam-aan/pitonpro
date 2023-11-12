@@ -9,7 +9,7 @@
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                 <!-- Проверяем есть ли пользователь в которую входит пользователь в списке разрешенных групп -->
-                {% if nameGroup in allowedGroups %}
+                {% if nameGroup == True %}
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Создать новый проект
                     </button>

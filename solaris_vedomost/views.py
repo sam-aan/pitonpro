@@ -1,10 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import solvedom
 from .models import SolVed
-from materials.rashet_sekcii import rashet
-import datetime
-
-#def zapusk()
 
 def sol_ved(request, data=None):
     error = ''
@@ -19,7 +15,6 @@ def sol_ved(request, data=None):
             form.Responsible = request.user.first_name + ' ' + request.user.last_name
             form.save()
             print(form.NomZak, form.NomProj_id, uploadedFile, form.PromPlosh)
-            rashet([form.NomZak, form.NomProj_id], uploadedFile, form.PromPlosh).zapusk()
             return redirect('zakazi')
         else:
             error = 'какая то ху...я'
